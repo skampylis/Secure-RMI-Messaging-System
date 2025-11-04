@@ -1,46 +1,52 @@
 # **Secure-RMI-Messaging-System**
 
-## **Περιγραφή**
-Πρόγραμμα σε **Java** που υλοποιεί ένα σύστημα ανταλλαγής μηνυμάτων με χρήση της τεχνολογίας **Java RMI (Remote Method Invocation)**. Κάθε χρήστης μπορεί να δημιουργήσει λογαριασμό και να ανταλλάσσει μηνύματα με άλλους χρήστες. Το σύστημα αποτελείται από έναν server που εξυπηρετεί πολλαπλούς clients ταυτόχρονα, και από client προγράμματα που στέλνουν αιτήματα στον server.
+## **Description**
+
+A **Java** program that implements a messaging system using **Java RMI (Remote Method Invocation)** technology. Each user can create an account and exchange messages with other users. The system consists of a server that serves multiple clients simultaneously, and client applications that send requests to the server.
 
 ---
 
 ### 🚀 **Project Overview**
-- **RMI Υλοποίηση**: Χρήση απομακρυσμένης μεθόδου για την επικοινωνία μεταξύ server και clients.
-- **Λογαριασμοί Χρηστών**: Δημιουργία και διαχείριση αυθεντικοποιημένων χρηστών με `authToken`.
-- **Ανταλλαγή Μηνυμάτων**: Εισερχόμενα, αναγνωσμένα/μη αναγνωσμένα μηνύματα, προβολή και διαγραφή.
+
+* **RMI Implementation**: Uses remote methods for communication between server and clients.
+* **User Accounts**: Creation and management of authenticated users via `authToken`.
+* **Message Exchange**: Incoming, read/unread messages, viewing, and deletion.
 
 ---
 
 ### 🔍 **Key Features**
-- **Αυθεντικοποίηση**: Κάθε χρήστης λαμβάνει μοναδικό `authToken` για σύνδεση και αλληλεπίδραση.
-- **Πλήρης Διαχείριση Μηνυμάτων**: Προβολή inbox, ανάγνωση και διαγραφή μηνυμάτων μέσω ID.
-- **Έλεγχοι & Σφάλματα**: Έλεγχος εγκυρότητας ονομάτων χρήστη και ύπαρξης μηνυμάτων με κατάλληλα μηνύματα σφαλμάτων.
+
+* **Authentication**: Each user receives a unique `authToken` for login and interaction.
+* **Full Message Management**: View inbox, read, and delete messages by ID.
+* **Validation & Error Handling**: Checks username validity and message existence with proper error messages.
 
 ---
 
 ### 🛠️ **Technical Highlights**
-- **Ασφάλεια Πρόσβασης**: Οι λειτουργίες απαιτούν `authToken` — προστασία λογαριασμών από μη εξουσιοδοτημένη πρόσβαση.
-- **Σύστημα Server-Client**: Ο server παραμένει σε συνεχή λειτουργία, ακούγοντας πολλαπλά αιτήματα clients ταυτόχρονα.
-- **Δομή Inbox**: Τα μηνύματα χαρακτηρίζονται με *αν δεν έχουν διαβαστεί*, διατηρώντας έτσι πληροφορία κατάστασης ανάγνωσης.
+
+* **Access Security**: All operations require an `authToken`, ensuring account protection against unauthorized access.
+* **Client-Server System**: The server runs continuously, handling multiple client requests simultaneously.
+* **Inbox Structure**: Messages are marked as *unread* until opened, maintaining read-status tracking.
 
 ---
 
 ### 📂 **Code Structure**
-- **Client.java**: Εφαρμογή πελάτη. Λαμβάνει είσοδο μέσω arguments, διαχειρίζεται λάθη και καλεί τις αντίστοιχες λειτουργίες του server ανάλογα με το FN_ID (1-6).
-- **Server.java**: Εφαρμογή εξυπηρετητή. Ακούει σε συγκεκριμένη πόρτα και διαχειρίζεται πολλαπλάυτόχρονα αιτήματα πελατών.
-- **MessagingInterface.java**: Απομακρυσμένη διεπαφή (Remote interface). Ορίζει τις 6 βασικές συναρτήσεις για τον client.
-- **MessagingRemote.java**: Υλοποίηση της απομακρυσμένης διεπαφής. Ελέγχει αυθεντικοποίηση, επικοινωνεί με τη βάση `Database` και υλοποιεί τις λειτουργίες:
-  - `CreateAccount` (δημιουργία λογαριασμού)
-  - `ShowAccounts` (προβολή όλων των λογαριασμών)
-  - `ShowInbox` (προβολή μηνυμάτων)
-  - `ReadMessage` (ανάγνωση μηνύματος μέσω ID)
-  - `DeleteMessage` (διαγραφή μηνύματος μέσω ID)
-- **Database.java**: Βάση δεδομένων λογαριασμών του server. Διαχειρίζεται `HashMap` από αντικείμενα `Account`, χειρίζεται τον έλεγχο αυθεντικοποίησης και αποθήκευση μηνυμάτων.
-- **Account.java**: Αναπαράσταση λογαριασμού χρήστη. Περιλαμβάνει `username` και `messageBox` (λίστα `Message` αντικειμένων).
-- **Message.java**: Μοντέλο μηνύματος. Περιέχει `sender`, `message`, `id`, και `isRead`, καθώς και συναρτήσεις για επιστροφή/τροποποίηση κατάστασης ανάγνωσης.
+
+* **Client.java**: Client-side application. Accepts input through arguments, handles errors, and calls corresponding server functions based on FN_ID (1–6).
+* **Server.java**: Server application. Listens on a specific port and handles multiple client requests concurrently.
+* **MessagingInterface.java**: Remote interface defining the six main functions available to the client.
+* **MessagingRemote.java**: Implementation of the remote interface. Handles authentication, interacts with the `Database`, and implements:
+
+  * `CreateAccount` (account creation)
+  * `ShowAccounts` (display all accounts)
+  * `ShowInbox` (view messages)
+  * `ReadMessage` (read message by ID)
+  * `DeleteMessage` (delete message by ID)
+* **Database.java**: Server-side account database. Manages a `HashMap` of `Account` objects, authentication checks, and message storage.
+* **Account.java**: User account representation containing `username` and `messageBox` (list of `Message` objects).
+* **Message.java**: Message model containing `sender`, `message`, `id`, and `isRead`, with functions for retrieving and updating read status.
 
 ---
 
-**🏷️ Tags**: `Java`, `RMI`, `Messaging System`, `Client-Server`, `Distributed Systems`  
-**🌟 Concept**: *"Ένα κατανεμημένο σύστημα ανταλλαγής μηνυμάτων, με στόχο την κατανόηση τεχνικών Java RMI, client-server αρχιτεκτονικής και ασφαλούς διαχείρισης δεδομένων χρηστών."*
+**🏷️ Tags**: `Java`, `RMI`, `Messaging System`, `Client-Server`, `Distributed Systems`
+**🌟 Concept**: *"A distributed messaging system designed to demonstrate Java RMI techniques, client-server architecture, and secure user data management."*
